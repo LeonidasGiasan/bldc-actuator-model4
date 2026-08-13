@@ -1,14 +1,14 @@
-# Rotary BLDC Actuator Control Model
+# Rotary / Linear BLDC Actuator Control Model
 
-This repository contains a MATLAB/Simulink model of a rotary brushless DC (BLDC) actuator and its control architecture. The model is developed for controlled and smooth actuator motion using the Profile Position Mode (PPM) philosophy of the EPOS4 controller.
+This repository contains a MATLAB/Simulink model of a rotary and a linear brushless DC (BLDC) actuator and its control architecture. The model is developed for controlled and smooth actuator motion using the Profile Position Mode (PPM) philosophy of the EPOS4 controller.
 
 The project focuses on actuator-level modeling and on the full control chain required to generate, track, and execute a position command in simulation.
 
 ## Project objective
 
-The main objective of this project is to model a rotary BLDC actuator and develop the associated control algorithm so that the motor can move smoothly, accurately, and in a controlled way. The implementation is organized around the cascaded control-loop structure required by the selected positioning strategy.
+The main objective of this project is to model a rotary and a linear BLDC actuator and develop the associated control algorithm so that the motor can move smoothly, accurately, and in a controlled way. The implementation is organized around the cascaded control-loop structure required by the selected positioning strategy.
 
-In the current version, the model includes:
+In the current version, the models include:
 
 - a trajectory generator,
 - a position controller,
@@ -36,7 +36,7 @@ The control system follows a cascaded structure:
    Compares reference velocity with measured velocity and generates the quadrature current reference.
 
 4. **Current Control**  
-   Regulates the direct and quadrature current components and produces the required voltage commands.
+   Regulates the direct and quadrature current components and produces the required voltage commands. (+ Decoupling only in linear model currently)
 
 5. **Inverse Clarke-Park Transforms**  
    Convert the voltage commands from the rotating reference frame into three-phase voltage components.
@@ -48,7 +48,7 @@ The control system follows a cascaded structure:
    Convert measured three-phase currents back to the rotating reference frame for feedback control.
 
 8. **Actuator Subsystem**  
-   Contains the motor model, gearbox, load, and sensor measurements for position and velocity.
+   Contains the motor model, gearbox or leadscrew, load, and sensor measurements for position and velocity.
 
 ## Motion profile
 
@@ -98,7 +98,7 @@ This project requires:
 2. Open MATLAB.
 3. Open the project file:
    - `model4.prj`
-4. Open the main Simulink model from the `models/` directory.
+4. Open Simulink model from the `models/` directory.
 
 ## Planned next steps
 
@@ -108,17 +108,24 @@ Planned improvements include:
 - retuning the velocity and position controllers,
 - replacing the averaged inverter with a switched inverter,
 - revisiting solver settings if the inverter model is upgraded,
-- investigating feedforward decoupling for higher-speed operation.
+- investigating feedforward decoupling for higher-speed operation (only for rotary model).
 
 ## Hardware basis
 
-The model is based on the following actuator-related hardware references:
+The models are based on the following actuator-related hardware references:
 
-- Maxon EC frameless DT 85 M motor
-- Spinea TwinSpin gearbox
-- Maxon TSX 85 MAG encoder
-- Maxon EPOS4 Compact 50/15 CAN controller
+Rotry:
+   - Maxon EC frameless DT 85 M motor
+   - Spinea TwinSpin gearbox
+   - Maxon TSX 85 MAG encoder
+   - Maxon EPOS4 Compact 50/15 CAN controller
+
+Linear
+   - Maxon EC-i 30
+   - Maxon Screw Drive GP 32 S
+   - Maxon Encoder ENC 16 EASY
+   - Maxon EPOS4 Compact 50/5 CAN controller
 
 ## Notes
 
-This repository is intended to support development, simulation, documentation, and collaboration around the rotary actuator model. The structure and implementation details may evolve as the model becomes more physically accurate and more closely aligned with the real system.
+This repository is intended to support development, simulation, documentation, and collaboration around the rotary and linear actuator model. The structure and implementation details may evolve as the model becomes more physically accurate and more closely aligned with the real system.
