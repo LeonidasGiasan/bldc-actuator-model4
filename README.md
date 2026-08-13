@@ -90,6 +90,7 @@ This project requires:
 - Simulink
 - Simscape
 - Simscape Electrical 
+- Simscape Driveline
 
 ## How to use
 
